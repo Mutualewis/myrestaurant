@@ -1,26 +1,18 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import PropTypes from 'prop-types';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = ({ type = 'checkbox', name, checked = false, onChange }) => (
+  <input type={type} name={name} checked={checked} onChange={onChange} />
+);
+
+App.propTypes = {
+  type: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  checked: PropTypes.bool,
+  onChange: PropTypes.func.isRequired,
 }
+
 
 export default App;
