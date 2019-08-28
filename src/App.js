@@ -69,15 +69,19 @@ class App extends React.Component {
       this.setState({data: e.target.value});
    }  
    render() {
+      let elements = this.state.data.map((element) => {
+          return (<li key={element.name}><Content 
+                  key = {element.name} componentData = {element}/></li>)
+      })
+      let choices = this.state.data.map((element) => {
+          return (<li key={element.name}><Content 
+                  key = {element.name} componentData = {element} componentState = {this.updateState} /></li>)
+      })
+
       return (
          <div>
             <Header/>
-            <table>
-               <tbody>
-                  {this.state.data.map((food, i) => <TableRow key = {i} 
-                     data = {food} />)}
-               </tbody>
-            </table>
+            <ul>{elements}</ul>
          </div>
       );
    }
@@ -91,22 +95,11 @@ class Header extends React.Component {
       );
    }
 }
-class TableRow extends React.Component {
+class Content extends React.Component {
    render() {
       return (
          <div>
-            <input type = "checkbox" value = {this.props.data.name} onChange = {this.updateState} /> {this.props.data.name}
-            <div>{this.props.data.choices.name}</div>
-         </div>
-      );
-   }
-}
-
-class Choices extends React.Component {
-   render() {
-      return (
-         <div>
-            <input type = "checkbox" value = {this.props.data.name} onChange = {this.updateState} /> {this.props.data.name}
+            <input type = "checkbox" value = {this.props.componentData.name} onChange = {this.componentState} /> {this.props.componentData.name}
          </div>
       );
    }
