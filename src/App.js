@@ -2,6 +2,33 @@ import React from 'react';
 import './App.css';
 import PropTypes from 'prop-types';
 
+class App extends React.Component {
+  constructor() {
+    super();
+    
+    this.state = { checked: false };
+    this.handleChange = this.handleChange.bind(this);
+  }
+  
+  handleChange() {
+    this.setState({
+      checked: !this.state.checked
+    })
+  }
+  render() {
+    const hidden = this.state.checked ? '' : 'hidden';
+    return (
+     <div>
+        <Header/>
+        <ul>
+          {items.map(i => (
+            <ListItem item={i} key={i.id} checked={ this.state.checked } onChange={ this.handleChange } className={ hidden } />
+          ))}
+        </ul>
+     </div>
+    );
+  }
+}
 const items = [
 {
 
@@ -60,12 +87,13 @@ const items = [
 
 ];
 
-function ListItem({ item }) {
+function ListItem({ item, checked, onChange, className }) {
   let choices = null;
   let related = null;
+
   if (item.choices && item.choices.length) {
     choices = (
-      <ul>
+      <ul class={className}>
         {item.choices.map(i => (
           <ListItem item={i} key={i.id} />
         ))}
@@ -74,7 +102,7 @@ function ListItem({ item }) {
   }
   if (item.related && item.related.length) {
     related = (
-      <ul>
+      <ul class={className}>
         {item.related.map(i => (
           <ListItem item={i} key={i.id} />
         ))}
@@ -83,26 +111,15 @@ function ListItem({ item }) {
   }
 
   return (
-    <li>
-      <input type = "checkbox" value = {item.name} /> {item.name}
+    <li onChange={onChange}>
+      <input type = "checkbox" checked ={checked} value = {item.name}/> {item.name}
       {choices}
       {related}
     </li>
   );
 }
 
-function App() {
-  return (
-   <div>
-      <Header/>
-      <ul>
-        {items.map(i => (
-          <ListItem item={i} key={i.id} />
-        ))}
-      </ul>
-   </div>
-  );
-}
+
 
 class Header extends React.Component {
    render() {
